@@ -10,7 +10,7 @@ function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const result = await login(email, password);
+    const result = await login(email.trim(), password.trim());
     setMessage(result.message);
   }
 
@@ -28,6 +28,8 @@ function Login() {
             placeholder="student@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            maxLength={50}
+            minLength={12}
             required
           />
 
@@ -38,6 +40,8 @@ function Login() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            maxLength={50}
+            minLength={8}
             required
           />
 
