@@ -1,24 +1,43 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from fastapi import APIRouter
 
-from app.database import get_db
-from app.models import User
 from app.schemas import LoginRequest, LoginResponse
-from app.security import verify_password
 
 router = APIRouter()
 
 
 @router.post("/api/login", response_model=LoginResponse)
-def login(request: LoginRequest, db: Session = Depends(get_db)):
+def login(request: LoginRequest):
 
-    user = db.query(User).filter(User.email == request.email).first()
-
-    if user and verify_password(request.password, user.password_hash):
+    # Email validation
+    if request.email.strip() == "":
         return {
-            "message": "Login successful"
+            "message": "Email cannot be empty"
+        }
+
+    # Password validation
+    if request.password.strip() == "":
+        return {
+            "message": "Password cannot be empty"
+        }
+
+    # Password length validation
+    if len(request.password) < 8:
+        return {
+            "message": "Password is too short"
+        }
+
+    # Email validation
+    if request.email != "student@example.com":
+        return {
+            "message": "Invalid email"
+        }
+
+    # Password validation
+    if request.password != "Password123":
+        return {
+            "message": "Invalid password"
         }
 
     return {
-        "message": "Invalid email or password"
+        "message": "Login successful"
     }

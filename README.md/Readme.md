@@ -105,13 +105,10 @@ Email
 student@example.com
 ```
 
-Password
+Password---->
 
-```
 Password123
-```
 
----
 
 ## Features
 
